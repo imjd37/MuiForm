@@ -1,9 +1,9 @@
 import { TextField, Typography } from "@mui/material";
 import { ErrorMessage, Field } from "formik";
-
-
+import { useStyles } from "./inputFieldStyle";
 
 const InputField = ({ label, name, hideIncrement = false, ...rest }) => {
+  const {classes} = useStyles()
     return (
         <>
          <Field
@@ -11,6 +11,7 @@ const InputField = ({ label, name, hideIncrement = false, ...rest }) => {
         as={TextField}
         name={name}
         {...rest}
+        className={hideIncrement ? classes.removeIncrement : ""}
       />
       <Typography color='error'>
        {<ErrorMessage name={name}/>}

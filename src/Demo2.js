@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { Container, Grid } from "@mui/material";
 import InputField from "./InputField";
 import * as Yup from "yup";
-// import InputField from "./InputField";
+
 const initialValues = {
     name: "",
     fatherName: "",
@@ -92,6 +92,7 @@ function Demo2() {
                     name={formField.mobileNumber.name}
                     type={formField.mobileNumber.type}
                     label={formField.mobileNumber.label}
+                    hideIncrement
                     variant="outlined"
                     value={values.mobileNumber}
                     error={errors.mobileNumber && touched.mobileNumber}
