@@ -94,5 +94,6 @@ export const Demo3 = (table) => {
         </tbody>
       </table>
     </Container>
+    
   );
 };
