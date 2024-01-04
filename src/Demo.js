@@ -1,119 +1,90 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Container, Grid } from "@mui/material";
-import * as Yup from "yup";
+import {
+  Checkbox,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  Select,
+} from "@mui/material";
+
+import { DatePicker } from "@mui/x-date-pickers";
+
+const orderStatus = ["abc", "def", "ghi", "jkl", "mno", "All"];
+const saleTypes = ["Buy", "Rent", "RentToOwn", "All"];
 
 function Demo() {
-  const initialValues = {
-    name: "",
-    fatherName: "",
-    mobileNumber: "",
-    email: "",
+  const [selectedOrderStatus, setSelectedOrderStatus] = React.useState([]);
+  const [saleType, setSaleType] = React.useState([]);
+  const [fromDate, setFromDate] = React.useState(null);
+
+  const handleOrderStatusChange = (event) => {
+    if (event.target.value.includes("All")) setSelectedOrderStatus([]);
+    else setSelectedOrderStatus(event.target.value);
+  };
+  const handleSalesTypeOptions = (event) => {
+    if (event.target.value.includes("All")) setSaleType([]);
+    else setSaleType(event.target.value);
   };
 
-  const validations = Yup.object({
-    name: Yup.string().required("required"),
-    fatherName: Yup.string().required("required"),
-    mobileNumber: Yup.string().required("required"),
-    email: Yup.string().required("required"),
-  });
-
-  const { formId, formField } = {
-    formId: "address-form",
-    formField: {
-      name: {
-        name: "name",
-        label: "Name",
-        type: "text",
-        errorMsg: "Name is required",
-      },
-      fatherName: {
-        name: "fatherName",
-        label: "Father Name",
-        type: "text",
-        errorMsg: "Father Name is required",
-      },
-      mobileNumber: {
-        name: "mobileNumber",
-        label: "Phone Number",
-        type: "text",
-        errorMsg: "Phone Number is required",
-      },
-      email: {
-        name: "email",
-        label: "Email",
-        type: "text",
-        errorMsg: "Email is required",
-      },
-    },
-  };
-
-  const onSubmit = (value) => {
-    console.log("form data", value);
-  };
-  //   console.log(Form)
+  console.log(selectedOrderStatus, saleType, fromDate);
 
   return (
     <>
-      <Container  maxWidth="sm" sx={{border:2,p:2,mt:2}} >
-        <h1>Form using Formik</h1>
-        <Grid mt={2}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validations}
-            onSubmit={onSubmit}
-          >
-            <Form id={formId} autoComplete="off">
-              <Grid item xs={12} sm={6} mb={2}>
-                <label>Name</label>
-                <Field
-                  name={formField.name.name}
-                  type={formField.name.type}
-                  label={formField.name.label}
-                  variant="outlined"
-                />
-                <ErrorMessage name={formField.name.name} />
-              </Grid>
-
-              <Grid item xs={12} sm={6} mb={2}>
-                <label>Father Name</label>
-                <Field
-                  name={formField.fatherName.name}
-                  type={formField.fatherName.type}
-                  label={formField.fatherName.label}
-                  variant="outlined"
-                />
-                <ErrorMessage name={formField.fatherName.name} />
-              </Grid>
-
-              <Grid item xs={12} sm={6} mb={2}>
-                <label>Mobile Number</label>
-                <Field
-                  name={formField.mobileNumber.name}
-                  type={formField.mobileNumber.type}
-                  label={formField.mobileNumber.label}
-                  variant="outlined"
-                />
-                <ErrorMessage name={formField.mobileNumber.name} />
-              </Grid>
-
-              <Grid item xs={12} sm={6} mb={2}>
-                <label>Email</label>
-                <Field
-                  name={formField.email.name}
-                  type={formField.email.type}
-                  label={formField.email.label}
-                  variant="outlined"
-                />
-                <ErrorMessage name={formField.email.name} />
-              </Grid>
-
-              <Button type="submit" variant="contained">
-                Submit
-              </Button>
-            </Form>
-          </Formik>
+      <Container
+        maxWidth="md"
+        sx={{ border: 2, p: 2, mt: 2, display: "flex", gap: 5 }}
+      >
+        <Grid>
+          <FormControl variant="standard">
+            <InputLabel htmlFor="status-select">Order Status</InputLabel>
+            <Select
+              sx={{ width: 200 }}
+              labelId="order-status-select"
+              id="order-status-select"
+              label="Order Status"
+              multiple
+              onChange={handleOrderStatusChange}
+              value={selectedOrderStatus.map((type) => type.toString())}
+              renderValue={(selected) => selected.join(",")}
+            >
+              {orderStatus.map((type) => (
+                <MenuItem key={type} value={type}>
+                  <Checkbox checked={selectedOrderStatus.includes(type)} />
+                  <ListItemText primary={type} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid>
+          <FormControl variant="standard">
+            <InputLabel htmlFor="status-select">Sales Type</InputLabel>
+            <Select
+              sx={{ width: 200 }}
+              label="Sales Type"
+              multiple
+              onChange={handleSalesTypeOptions}
+              value={saleType.map((type) => type.toString())}
+              renderValue={(selected) => selected.join(",")}
+            >
+              {saleTypes.map((type) => (
+                <MenuItem key={type} value={type}>
+                  <Checkbox checked={saleType.includes(type)} />
+                  <ListItemText primary={type} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid>
+          <DatePicker
+            label="Select from date"
+            value={fromDate}
+            onChange={(newValue) => setFromDate(newValue.$d)}
+          />
         </Grid>
       </Container>
     </>
