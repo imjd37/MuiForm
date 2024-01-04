@@ -2,7 +2,7 @@ import { Container } from "@mui/material";
 import React, { useMemo } from "react";
 import { useSortBy, useTable } from "react-table";
 
-const COLUMNS = [
+export const COLUMNS = [
   {
     Header: "Id",
     accessor: "id",
