@@ -9,27 +9,29 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-
 import { DatePicker } from "@mui/x-date-pickers";
 
 const orderStatus = ["abc", "def", "ghi", "jkl", "mno", "All"];
 const saleTypes = ["Buy", "Rent", "RentToOwn", "All"];
 
 function Demo() {
-  const [selectedOrderStatus, setSelectedOrderStatus] = React.useState([]);
-  const [saleType, setSaleType] = React.useState([]);
-  const [fromDate, setFromDate] = React.useState(null);
+  const [filter, setFilter] = React.useState({
+    selectedOrderStatus: [],
+    saleType: [],
+    fromDate: null,
+  });
 
-  const handleOrderStatusChange = (event) => {
-    if (event.target.value.includes("All")) setSelectedOrderStatus([]);
-    else setSelectedOrderStatus(event.target.value);
-  };
-  const handleSalesTypeOptions = (event) => {
-    if (event.target.value.includes("All")) setSaleType([]);
-    else setSaleType(event.target.value);
+  const setFilterFunction = (name, value) => {
+    return setFilter({ ...filter, [name]: value });
   };
 
-  console.log(selectedOrderStatus, saleType, fromDate);
+  const handleOrder = (event) => {
+    if (event.target.value.includes("All"))
+      setFilterFunction(event.target.name, []);
+    else setFilterFunction(event.target.name, event.target.value);
+  };
+
+  console.log(filter.selectedOrderStatus, filter.saleType, filter.fromDate);
 
   return (
     <>
@@ -45,14 +47,17 @@ function Demo() {
               labelId="order-status-select"
               id="order-status-select"
               label="Order Status"
+              name="selectedOrderStatus"
               multiple
-              onChange={handleOrderStatusChange}
-              value={selectedOrderStatus.map((type) => type.toString())}
+              onChange={handleOrder}
+              value={filter.selectedOrderStatus.map((type) => type.toString())}
               renderValue={(selected) => selected.join(",")}
             >
               {orderStatus.map((type) => (
                 <MenuItem key={type} value={type}>
-                  <Checkbox checked={selectedOrderStatus.includes(type)} />
+                  <Checkbox
+                    checked={filter.selectedOrderStatus.includes(type)}
+                  />
                   <ListItemText primary={type} />
                 </MenuItem>
               ))}
@@ -65,14 +70,15 @@ function Demo() {
             <Select
               sx={{ width: 200 }}
               label="Sales Type"
+              name="saleType"
               multiple
-              onChange={handleSalesTypeOptions}
-              value={saleType.map((type) => type.toString())}
+              onChange={handleOrder}
+              value={filter.saleType.map((type) => type.toString())}
               renderValue={(selected) => selected.join(",")}
             >
               {saleTypes.map((type) => (
                 <MenuItem key={type} value={type}>
-                  <Checkbox checked={saleType.includes(type)} />
+                  <Checkbox checked={filter.saleType.includes(type)} />
                   <ListItemText primary={type} />
                 </MenuItem>
               ))}
@@ -82,8 +88,11 @@ function Demo() {
         <Grid>
           <DatePicker
             label="Select from date"
-            value={fromDate}
-            onChange={(newValue) => setFromDate(newValue.$d)}
+            name="fromDate"
+            value={filter.fromDate}
+            onChange={(newValue) => {
+              setFilterFunction("fromDate", newValue.$d);
+            }}
           />
         </Grid>
       </Container>

@@ -131,7 +131,7 @@ function Demo2() {
   const onSubmit = (value) => {
     console.log("form data", value);
   };
-  console.log(items);
+  // console.log(items);
 
   return (
     <>
