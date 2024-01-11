@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import Demo2 from "./Demo2";
 
 export const MuiTable = (table) => {
   const columns = useMemo(() => COLUMNS, []);
@@ -25,55 +26,59 @@ export const MuiTable = (table) => {
     tableInstance;
 
   return (
-    <Table
-      sx={{ width: 1400, border: 2, my: 5, mx: "auto" }}
-      {...getTableProps()}
-    >
-      <TableHead>
-        {headerGroups.map((headerGroup, key) => (
-          <TableRow
-            sx={{ backgroundColor: "#9ceb9b" }}
-            key={key}
-            {...headerGroup.getHeaderGroupProps}
-          >
-            {headerGroup.headers.map((column, key) => (
-              <TableCell
-                key={key}
-                width={column.width ? column.width : "Auto"}
-                align={column.align ? column.align : "left"}
-                sx={{ fontWeight: "bold" }}
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-              >
-                {column.render("Header")}
-                <span>
-                  {column.isSorted ? (column.isSortedDesc ? " v" : " ^") : ""}
-                </span>
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableHead>
-      <TableBody {...getTableBodyProps()}>
-        {rows.map((row, key) => {
-          prepareRow(row);
-          return (
-            <TableRow key={key} {...row.getRowProps()}>
-              {row.cells.map((cell, key) => {
-                return (
-                  <TableCell
-                    key={key}
-                    align={row.align ? row.align : "left"}
-                    {...cell.getCellProps}
-                  >
-                    {cell.render("Cell")}
-                  </TableCell>
-                );
-              })}
+    <>
+      <Table
+        sx={{ width: 1400, border: 2, my: 5, mx: "auto" }}
+        {...getTableProps()}
+      >
+        <TableHead>
+          {headerGroups.map((headerGroup, key) => (
+            <TableRow
+              sx={{ backgroundColor: "#9ceb9b" }}
+              key={key}
+              {...headerGroup.getHeaderGroupProps}
+            >
+              {headerGroup.headers.map((column, key) => (
+                <TableCell
+                  key={key}
+                  width={column.width ? column.width : "Auto"}
+                  align={column.align ? column.align : "left"}
+                  sx={{ fontWeight: "bold" }}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                >
+                  {column.render("Header")}
+                  <span>
+                    {column.isSorted ? (column.isSortedDesc ? " v" : " ^") : ""}
+                  </span>
+                </TableCell>
+              ))}
             </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+          ))}
+        </TableHead>
+        <TableBody {...getTableBodyProps()}>
+          {rows.map((row, key) => {
+            prepareRow(row);
+            return (
+              <TableRow key={key} {...row.getRowProps()}>
+                {row.cells.map((cell, key) => {
+                  return (
+                    <TableCell
+                      key={key}
+                      align={row.align ? row.align : "left"}
+                      {...cell.getCellProps}
+                    >
+                      {cell.render("Cell")}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+
+      <Demo2 />
+    </>
   );
 };
 

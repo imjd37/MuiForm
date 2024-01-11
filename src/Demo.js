@@ -10,6 +10,7 @@ import {
   Select,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
+import { GlobalData } from "./App";
 
 const orderStatus = ["abc", "def", "ghi", "jkl", "mno", "All"];
 const saleTypes = ["Buy", "Rent", "RentToOwn", "All"];
@@ -20,6 +21,8 @@ function Demo() {
     saleType: [],
     fromDate: null,
   });
+
+  const { appColor } = React.useContext(GlobalData);
 
   const setFilterFunction = (name, value) => {
     return setFilter({ ...filter, [name]: value });
@@ -37,7 +40,8 @@ function Demo() {
     <>
       <Container
         maxWidth="md"
-        sx={{ border: 2, p: 2, mt: 2, display: "flex", gap: 5 }}
+        style={{ borderColor: appColor }}
+        sx={{ border: 10, p: 2, mt: 2, display: "flex", gap: 5 }}
       >
         <Grid>
           <FormControl variant="standard">

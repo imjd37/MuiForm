@@ -15,6 +15,7 @@ import {
 import InputField from "./InputField";
 import * as Yup from "yup";
 import { useState } from "react";
+import { GlobalData } from "./App";
 
 const initialValues = {
   name: "",
@@ -97,6 +98,9 @@ function Demo2() {
   const [number, setNumber] = useState("");
   const [items, setItems] = useState([]);
 
+  const { appColor, changeColor } = React.useContext(GlobalData);
+  console.log(appColor);
+
   const handleSelectedNumber = (e) => {
     const selectNumber = e.target.value;
     setNumber(selectNumber);
@@ -130,12 +134,16 @@ function Demo2() {
   };
   const onSubmit = (value) => {
     console.log("form data", value);
+    changeColor("green");
   };
   // console.log(items);
 
   return (
     <>
-      <Container maxWidth="sm" sx={{ border: 2, p: 2, mt: 2 }}>
+      <Container
+        maxWidth="sm"
+        sx={{ border: 2, p: 2, mt: 2, backgroundColor: appColor }}
+      >
         <h1>Form using Formik with Mui</h1>
         <Grid my={3}>
           <Formik
